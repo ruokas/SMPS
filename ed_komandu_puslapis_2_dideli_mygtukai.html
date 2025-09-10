@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="lt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RŠL SMPS</title>
+  <meta name="description" content="RŠL SMPS komandų puslapis" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0b1220;
+      --bg-2: #0e1628;
+      --fg: #e9eef9;
+      --muted: #aab7cf;
+      --accent: #6aa6ff;
+      --accent-2: #6df0c2;
+      --card: rgba(255,255,255,0.06);
+      --card-border: rgba(255,255,255,0.12);
+      --shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 0 0 1px var(--card-border);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--fg);
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+    }
+
+    .wrap{
+      width: min(1100px, 94vw);
+      padding: clamp(16px, 3.5vw, 40px);
+      display: grid;
+      gap: clamp(16px, 2.5vw, 28px);
+    }
+
+    header{
+      text-align: center;
+    }
+    h1{
+      margin: 0;
+      font-size: clamp(32px, 5vw, 56px);
+      letter-spacing: -0.02em;
+      font-weight: 800;
+    }
+    p.lead{
+      margin: 10px auto 0;
+      max-width: 70ch;
+      color: var(--muted);
+      font-size: clamp(14px, 1.6vw, 18px);
+    }
+
+    .grid{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(16px, 2.4vw, 24px);
+    }
+    @media (min-width: 820px){
+      .grid{ grid-template-columns: 1fr 1fr; }
+    }
+
+    .card{
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: inherit;
+      background: var(--card);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: clamp(22px, 3.6vw, 38px);
+      overflow: hidden;
+      transform: translateZ(0);
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      min-height: 200px;
+    }
+    .card:focus{ outline: none; }
+    .card:focus-visible{ box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 60%, transparent), var(--shadow); }
+    .card:hover{ transform: translateY(-3px); }
+
+    .card .ink{
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(500px 250px at 20% 20%, color-mix(in srgb, var(--accent) 26%, transparent) 0%, transparent 60%),
+                  radial-gradient(600px 260px at 80% 80%, color-mix(in srgb, var(--accent-2) 24%, transparent) 0%, transparent 60%);
+      filter: blur(18px) saturate(120%);
+      opacity: .9;
+    }
+
+    .card .title{
+      position: relative;
+      z-index: 1;
+      font-size: clamp(24px, 3.6vw, 36px);
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    footer{
+      text-align: center; color: var(--muted); font-size: 13px; margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main">
+    <header>
+      <h1>RŠL SMPS</h1>
+      <p class="lead">„Greita pagalba, stipri komanda, saugi bendruomenė“</p>
+    </header>
+
+    <section class="grid" aria-label="Komandų pasirinkimai">
+      <!-- TRAUMOS KOMANDA -->
+      <a class="card" href="#" role="button" aria-label="Traumos komanda">
+        <span class="ink" aria-hidden="true"></span>
+        <div class="title">Traumos komanda</div>
+      </a>
+
+      <!-- INSULTO KOMANDA -->
+      <a class="card" href="#" role="button" aria-label="Insulto komanda">
+        <span class="ink" aria-hidden="true"></span>
+        <div class="title">Insulto komanda</div>
+      </a>
+    </section>
+
+    <footer>
+      <span>© <span id="y"></span> RŠL • SMPS</span>
+    </footer>
+  </main>
+
+  <script>
+    // Paprasta pagalba klaviatūrai: leisti Space veikti kaip click ant <a role="button">
+    document.addEventListener('keydown', (e) => {
+      if ((e.key === ' ' || e.key === 'Spacebar') && e.target.matches('a[role="button"]')){
+        e.preventDefault(); e.target.click();
+      }
+    });
+    // Metai footeryje
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
