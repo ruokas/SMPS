@@ -16,6 +16,10 @@
       --muted: #aab7cf;
       --accent: #6aa6ff;
       --accent-2: #6df0c2;
+      /* Papildomos variacijos: naudokite minkštiems akcentams, pulsavimui */
+      --accent-soft: color-mix(in srgb, var(--accent) 35%, transparent);
+      --accent-glow: color-mix(in srgb, var(--accent-2) 45%, transparent);
+      --accent-night: color-mix(in srgb, var(--bg-2) 70%, black 30%);
       --card: rgba(255,255,255,0.06);
       --card-border: rgba(255,255,255,0.12);
       --shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 0 0 1px var(--card-border);
@@ -31,6 +35,22 @@
       min-height: 100%;
       display: grid;
       place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before{
+      content: "";
+      position: fixed;
+      inset: -20%;
+      background: radial-gradient(60% 80% at 15% 20%, var(--accent-soft), transparent 70%),
+                  radial-gradient(55% 70% at 85% 30%, var(--accent-glow), transparent 75%),
+                  radial-gradient(70% 80% at 50% 85%, var(--accent-night), transparent 80%);
+      filter: blur(40px);
+      opacity: 0.7;
+      z-index: -1;
+      animation: auroraPulse 18s infinite alternate;
+      pointer-events: none;
     }
 
     .wrap{
@@ -66,24 +86,30 @@
     }
 
     .card{
+      --glow: 0.35;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       text-decoration: none;
       color: inherit;
-      background: var(--card);
+      background: color-mix(in srgb, var(--card) 80%, var(--accent-soft) calc(var(--glow) * 10%));
       border-radius: 22px;
-      box-shadow: var(--shadow);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), inset 0 0 0 1px color-mix(in srgb, var(--accent) calc(var(--glow) * 40%), var(--card-border));
       padding: clamp(22px, 3.6vw, 38px);
       overflow: hidden;
       transform: translateZ(0);
       transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
       min-height: 200px;
+      animation: cardBreath 10s infinite;
     }
     .card:focus{ outline: none; }
     .card:focus-visible{ box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 60%, transparent), var(--shadow); }
-    .card:hover{ transform: translateY(-3px); }
+    .card:hover,
+    .card:focus-visible{
+      --glow: 0.65;
+      transform: translateY(-3px);
+    }
 
     .card .ink{
       position: absolute; inset: 0; pointer-events: none;
@@ -91,6 +117,42 @@
                   radial-gradient(600px 260px at 80% 80%, color-mix(in srgb, var(--accent-2) 24%, transparent) 0%, transparent 60%);
       filter: blur(18px) saturate(120%);
       opacity: .9;
+    }
+
+    @keyframes auroraPulse{
+      0%{
+        transform: scale(1) translate(0, 0);
+        opacity: 0.6;
+      }
+      50%{
+        transform: scale(1.08) translate(-2%, -1%);
+        opacity: 0.85;
+      }
+      100%{
+        transform: scale(1.15) translate(2%, 3%);
+        opacity: 0.7;
+      }
+    }
+
+    @keyframes cardBreath{
+      0%{
+        --glow: 0.35;
+      }
+      50%{
+        --glow: 0.55;
+      }
+      100%{
+        --glow: 0.35;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      body::before{
+        animation: none;
+      }
+      .card{
+        animation: none;
+      }
     }
 
     .card .title{
